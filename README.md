@@ -14,14 +14,18 @@ After cloning the repository, run the installation script:
 
 ## Usage
 
-1. **Ping a Server**:
+**Ping a Server**:
+
+To display the response and the time taken to get the response:
+
 ```
 pingpong [URL]
 ```
-   This will display the response and the time taken to get the response.
 
-2. **Hide Response Time**:
+**Hide Response Time**:
+
 If you only want to display the server's response without the response time:
+
 ```
 pingpong -h [URL]
 ```
