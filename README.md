@@ -1,4 +1,4 @@
-# PingPong
+# pingpong
 
 A simple utility to measure the request time of a given URL and display its response.
 
