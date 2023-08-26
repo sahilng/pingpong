@@ -10,6 +10,7 @@ After cloning the repository, run the installation script:
 
 ```bash
 ./install.sh
+```
 
 ## Usage
 
