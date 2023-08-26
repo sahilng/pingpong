@@ -1,6 +1,6 @@
 /*
-    pingpong.go: A simple utility to measure the request time of a given URL and display the response.
-    I used ChatGPT by OpenAI to write this code... wow!
+   pingpong.go: A simple utility to measure the request time of a given URL and display the response.
+   I used ChatGPT by OpenAI to write this code... wow!
 */
 
 package main
@@ -28,7 +28,7 @@ func main() {
 	// Check if URL is provided
 	args := flag.Args() // Get non-flag arguments
 	if len(args) < 1 {
-		fmt.Println("Usage: ./pingpong [-h] <url>")
+		fmt.Println("Usage: pingpong [-h] <url>")
 		return
 	}
 	url := args[0]
@@ -64,6 +64,6 @@ func main() {
 
 	fmt.Println(string(body))
 	if !*hideTime {
-		fmt.Printf("%s%.0f%s%sms%s\n", Green, duration.Seconds()*1000, Reset, Blue, Reset)  // Number in green, "ms" in blue
+		fmt.Printf("%s%.0f%s%sms%s\n", Green, duration.Seconds()*1000, Reset, Blue, Reset) // Number in green, "ms" in blue
 	}
 }
