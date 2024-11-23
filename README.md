@@ -22,7 +22,7 @@ pingpong [URL]
 
 **Hide Response Time**:
 
-If you only want to display the server's response without the response time:
+If you only want to display the response time:
 
 ```
 pingpong -h [URL]
