@@ -9,7 +9,7 @@ Made using ChatGPT!
 After cloning the repository, run the installation script:
 
 ```bash
-sudo ./install.sh
+./install.sh
 ```
 
 ## Usage

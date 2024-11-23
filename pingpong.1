@@ -1,13 +1,33 @@
 .\" Manpage for pingpong.
-.TH man 8 "26 August 2023" "1.0" "PingPong man page"
+.TH PINGPONG 1 "26 November 2024" "1.1" "PingPong Manual"
 .SH NAME
-pingpong \- A tool to check request time for a given URL.
+pingpong \- A tool to check request time and retrieve the response of a given URL.
 .SH SYNOPSIS
-pingpong [-h] <url>
+.B pingpong
+[-h] <url>
 .SH DESCRIPTION
-pingpong is a simple utility that measures the request time of a given URL and displays its response.
+pingpong is a simple utility that measures the request time of a given URL and displays its response. If no protocol (http or https) is specified in the URL, the tool assumes http by default. In case of redirection (e.g., from http to https), it will notify the user for more accurate timing.
+
 .SH OPTIONS
--h  
-    Hide the request time and display only the response.
+.TP
+.B \-h
+Hide the HTML response and display only the request time.
+.SH EXAMPLES
+.TP
+Check request time and display HTML response:
+.B pingpong
+https://example.com
+.TP
+Check request time without displaying HTML response:
+.B pingpong
+\-h https://example.com
+.TP
+Test a URL without specifying the protocol:
+.B pingpong
+example.com
+.SH NOTES
+If a redirect is detected (e.g., from http to https), pingpong will inform the user and suggest testing directly with https for more accurate timing.
 .SH AUTHOR
-Made using ChatGPT!
+Developed with assistance from ChatGPT.
+.SH VERSION
+1.1

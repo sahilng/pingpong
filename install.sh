@@ -4,7 +4,7 @@
 go build pingpong.go
 
 # Move the binary to /usr/local/bin
-mv pingpong /usr/local/bin/
+sudo mv pingpong /usr/local/bin/
 
 # Install the man page
 sudo mkdir -p /usr/local/share/man/man1

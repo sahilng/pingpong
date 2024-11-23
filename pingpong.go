@@ -1,8 +1,3 @@
-/*
-   pingpong.go: A simple utility to measure the request time of a given URL and display the response.
-   I used ChatGPT by OpenAI to write this code... wow!
-*/
-
 package main
 
 import (
@@ -10,19 +5,21 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"strings"
 	"time"
 )
 
 // ANSI escape codes for colors
 const (
-	Green = "\033[32m"
-	Blue  = "\033[34m"
-	Reset = "\033[0m"
+	Green  = "\033[32m"
+	Blue   = "\033[34m"
+	Yellow = "\033[33m"
+	Reset  = "\033[0m"
 )
 
 func main() {
-	// Flag for hiding the request time
-	hideTime := flag.Bool("h", false, "Hide the request time")
+	// Flag for hiding the HTML output
+	hideHTML := flag.Bool("h", false, "Hide the HTML output")
 	flag.Parse()
 
 	// Check if URL is provided
@@ -31,16 +28,27 @@ func main() {
 		fmt.Println("Usage: pingpong [-h] <url>")
 		return
 	}
-	url := args[0]
+	urlStr := args[0]
+
+	// Add "http://" if no protocol is specified
+	if !strings.HasPrefix(urlStr, "http://") && !strings.HasPrefix(urlStr, "https://") {
+		urlStr = "http://" + urlStr
+	}
 
 	timeout := time.Duration(10 * time.Second) // 10 seconds timeout
 	client := http.Client{
 		Timeout: timeout,
+		CheckRedirect: func(req *http.Request, via []*http.Request) error {
+			// Allow redirects but capture when they happen
+			return nil
+		},
 	}
 
 	// Start measuring the request time
 	start := time.Now()
-	resp, err := client.Get(url)
+	resp, err := client.Get(urlStr)
+	duration := time.Since(start) // Stop the timer immediately after the request completes
+
 	if err != nil {
 		fmt.Printf("Error fetching the URL: %s\n", err)
 		return
@@ -53,17 +61,24 @@ func main() {
 		return
 	}
 
+	// Detect if there was a redirect
+	finalURL := resp.Request.URL.String()
+	wasRedirected := finalURL != urlStr
+
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
 		fmt.Printf("Error reading the response: %s\n", err)
 		return
 	}
 
-	// Calculate request duration
-	duration := time.Since(start)
+	// Print the HTML output unless -h is specified
+	if !*hideHTML {
+		fmt.Println(string(body))
+	}
 
-	fmt.Println(string(body))
-	if !*hideTime {
-		fmt.Printf("%s%.0f%s%sms%s\n", Green, duration.Seconds()*1000, Reset, Blue, Reset) // Number in green, "ms" in blue
+	// Print request duration and redirect warning (if applicable)
+	fmt.Printf("%s%.0f%s%sms%s\n", Green, duration.Seconds()*1000, Reset, Blue, Reset) // Number in green, "ms" in blue
+	if wasRedirected {
+		fmt.Printf("%sRedirect detected: Request was redirected to %s. For more accurate timing, try testing directly with https.%s\n", Yellow, finalURL, Reset)
 	}
 }
